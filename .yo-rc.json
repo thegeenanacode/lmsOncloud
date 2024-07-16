@@ -1,0 +1,40 @@
+{
+  "generator-jhipster": {
+    "applicationType": "monolith",
+    "baseName": "LMSOnCloud",
+    "buildTool": "maven",
+    "cacheProvider": "hazelcast",
+    "clientFramework": "angular",
+    "clientPackageManager": "npm",
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "devServerPort": 4200,
+    "enableHibernateCache": true,
+    "entities": [
+      "Course",
+      "Module",
+      "Lesson",
+      "AppUser",
+      "Enrollment",
+      "ContentLibrary",
+      "Project",
+      "Message",
+      "Discussion",
+      "Announcement",
+      "Quiz",
+      "Assignment",
+      "Gradebook"
+    ],
+    "jhipsterVersion": "8.6.0",
+    "jwtSecretKey": "ZmY2MWZlMWQ4NDc2NGM0YjQxYjVhZWY3ZDNiZmZjODA1YWIzODUwMTcwMTVjYjZhMDFmZjE3M2Q3NzNhNzhjYzc1ODY0YTRkYTcxZDVkZjZlNGZlZGQ2YzE3ZDA0ZmE0YWZjMmI5ZDdiYTMzMDFmMTkzZTEwMGM2OTc2YjJiMDg=",
+    "languages": ["en"],
+    "lastLiquibaseTimestamp": 1721160628000,
+    "nativeLanguage": "en",
+    "packageFolder": "com/lmsoncloud",
+    "packageName": "com.lmsoncloud",
+    "prodDatabaseType": "postgresql",
+    "serverPort": "7575",
+    "serviceDiscoveryType": false,
+    "testFrameworks": ["protractor", "gatling", "cucumber"]
+  }
+}

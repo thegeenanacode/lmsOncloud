@@ -1,0 +1,72 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (enrollment()) {
+      <div>
+        <h2 data-cy="enrollmentDetailsHeading"><span jhiTranslate="lmsOnCloudApp.enrollment.detail.title">Enrollment</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ enrollment()!.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.enrollment.enrollmentDate">Enrollment Date</span></dt>
+          <dd>
+            <span>{{ enrollment()!.enrollmentDate | formatMediumDate }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.enrollment.status">Status</span></dt>
+          <dd>
+            <span [jhiTranslate]="'lmsOnCloudApp.EnrollmentStatus.' + (enrollment()!.status ?? 'null')">{{
+              { null: '', ACTIVE: 'ACTIVE', COMPLETED: 'COMPLETED', WAITLISTED: 'WAITLISTED' }[enrollment()!.status ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.enrollment.createdBy">Created By</span></dt>
+          <dd>
+            <span>{{ enrollment()!.createdBy }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.enrollment.createdDate">Created Date</span></dt>
+          <dd>
+            <span>{{ enrollment()!.createdDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.enrollment.lastModifiedBy">Last Modified By</span></dt>
+          <dd>
+            <span>{{ enrollment()!.lastModifiedBy }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.enrollment.lastModifiedDate">Last Modified Date</span></dt>
+          <dd>
+            <span>{{ enrollment()!.lastModifiedDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.enrollment.user">User</span></dt>
+          <dd>
+            @if (enrollment()!.user) {
+              <div>
+                <a [routerLink]="['/app-user', enrollment()!.user?.id, 'view']">{{ enrollment()!.user?.id }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.enrollment.course">Course</span></dt>
+          <dd>
+            @if (enrollment()!.course) {
+              <div>
+                <a [routerLink]="['/course', enrollment()!.course?.id, 'view']">{{ enrollment()!.course?.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/enrollment', enrollment()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

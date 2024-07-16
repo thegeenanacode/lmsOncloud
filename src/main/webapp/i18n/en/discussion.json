@@ -1,0 +1,30 @@
+{
+  "lmsOnCloudApp": {
+    "discussion": {
+      "home": {
+        "title": "Discussions",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Discussion",
+        "createOrEditLabel": "Create or edit a Discussion",
+        "notFound": "No Discussions found"
+      },
+      "created": "A new Discussion is created with identifier {{ param }}",
+      "updated": "A Discussion is updated with identifier {{ param }}",
+      "deleted": "A Discussion is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Discussion {{ id }}?"
+      },
+      "detail": {
+        "title": "Discussion"
+      },
+      "id": "ID",
+      "topic": "Topic",
+      "details": "Details",
+      "createdBy": "Created By",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date",
+      "course": "Course"
+    }
+  }
+}

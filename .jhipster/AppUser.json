@@ -1,0 +1,78 @@
+{
+  "annotations": {
+    "changelogDate": "20240716200128"
+  },
+  "applications": ["LMSOnCloud"],
+  "fields": [
+    {
+      "fieldName": "username",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "minlength", "maxlength"],
+      "fieldValidateRulesMaxlength": "50",
+      "fieldValidateRulesMinlength": "5"
+    },
+    {
+      "fieldName": "password",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "pattern"],
+      "fieldValidateRulesPattern": "^[^@\\\\s]+@[^@\\\\s]+\\\\.[^@\\\\s]+$"
+    },
+    {
+      "fieldName": "role",
+      "fieldType": "UserRole",
+      "fieldValues": "ADMIN,INSTRUCTOR,STUDENT"
+    },
+    {
+      "fieldName": "firstName",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "50"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastModifiedDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastLoginDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "isActive",
+      "fieldType": "Boolean"
+    }
+  ],
+  "name": "AppUser",
+  "pagination": "infinite-scroll",
+  "relationships": [
+    {
+      "otherEntityName": "enrollment",
+      "relationshipName": "enrollment",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "message",
+      "otherEntityRelationshipName": "user",
+      "relationshipName": "message",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

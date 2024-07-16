@@ -1,0 +1,43 @@
+{
+  "annotations": {
+    "changelogDate": "20240716200428"
+  },
+  "applications": ["LMSOnCloud"],
+  "fields": [
+    {
+      "fieldName": "projectName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "100"
+    },
+    {
+      "fieldName": "projectDescription",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "submissionDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastModifiedBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastModifiedDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "name": "Project",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

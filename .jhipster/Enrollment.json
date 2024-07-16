@@ -1,0 +1,50 @@
+{
+  "annotations": {
+    "changelogDate": "20240716200228"
+  },
+  "applications": ["LMSOnCloud"],
+  "fields": [
+    {
+      "fieldName": "enrollmentDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "EnrollmentStatus",
+      "fieldValues": "ACTIVE,COMPLETED,WAITLISTED"
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastModifiedBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastModifiedDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "name": "Enrollment",
+  "relationships": [
+    {
+      "otherEntityName": "appUser",
+      "relationshipName": "user",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "course",
+      "relationshipName": "course",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

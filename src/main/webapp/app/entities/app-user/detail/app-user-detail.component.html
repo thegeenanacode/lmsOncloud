@@ -1,0 +1,80 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (appUser()) {
+      <div>
+        <h2 data-cy="appUserDetailsHeading"><span jhiTranslate="lmsOnCloudApp.appUser.detail.title">App User</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ appUser()!.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.appUser.username">Username</span></dt>
+          <dd>
+            <span>{{ appUser()!.username }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.appUser.password">Password</span></dt>
+          <dd>
+            <span>{{ appUser()!.password }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.appUser.email">Email</span></dt>
+          <dd>
+            <span>{{ appUser()!.email }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.appUser.role">Role</span></dt>
+          <dd>
+            <span [jhiTranslate]="'lmsOnCloudApp.UserRole.' + (appUser()!.role ?? 'null')">{{
+              { null: '', ADMIN: 'ADMIN', INSTRUCTOR: 'INSTRUCTOR', STUDENT: 'STUDENT' }[appUser()!.role ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.appUser.firstName">First Name</span></dt>
+          <dd>
+            <span>{{ appUser()!.firstName }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.appUser.lastName">Last Name</span></dt>
+          <dd>
+            <span>{{ appUser()!.lastName }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.appUser.createdDate">Created Date</span></dt>
+          <dd>
+            <span>{{ appUser()!.createdDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.appUser.lastModifiedDate">Last Modified Date</span></dt>
+          <dd>
+            <span>{{ appUser()!.lastModifiedDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.appUser.lastLoginDate">Last Login Date</span></dt>
+          <dd>
+            <span>{{ appUser()!.lastLoginDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.appUser.isActive">Is Active</span></dt>
+          <dd>
+            <span>{{ appUser()!.isActive }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.appUser.enrollment">Enrollment</span></dt>
+          <dd>
+            @if (appUser()!.enrollment) {
+              <div>
+                <a [routerLink]="['/enrollment', appUser()!.enrollment?.id, 'view']">{{ appUser()!.enrollment?.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/app-user', appUser()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

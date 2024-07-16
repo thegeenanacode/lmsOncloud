@@ -1,0 +1,71 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (course()) {
+      <div>
+        <h2 data-cy="courseDetailsHeading"><span jhiTranslate="lmsOnCloudApp.course.detail.title">Course</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ course()!.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.course.name">Name</span></dt>
+          <dd>
+            <span>{{ course()!.name }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.course.description">Description</span></dt>
+          <dd>
+            <span>{{ course()!.description }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.course.startDate">Start Date</span></dt>
+          <dd>
+            <span>{{ course()!.startDate | formatMediumDate }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.course.endDate">End Date</span></dt>
+          <dd>
+            <span>{{ course()!.endDate | formatMediumDate }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.course.createdBy">Created By</span></dt>
+          <dd>
+            <span>{{ course()!.createdBy }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.course.createdDate">Created Date</span></dt>
+          <dd>
+            <span>{{ course()!.createdDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.course.lastModifiedBy">Last Modified By</span></dt>
+          <dd>
+            <span>{{ course()!.lastModifiedBy }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.course.lastModifiedDate">Last Modified Date</span></dt>
+          <dd>
+            <span>{{ course()!.lastModifiedDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.course.module">Module</span></dt>
+          <dd>
+            @for (module of course()!.modules; track $index; let last = $last) {
+              <span>
+                <a [routerLink]="['/module', module.id, 'view']">{{ module?.id }}</a
+                >{{ last ? '' : ', ' }}
+              </span>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/course', course()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

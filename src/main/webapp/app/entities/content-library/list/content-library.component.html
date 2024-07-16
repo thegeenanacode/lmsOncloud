@@ -1,0 +1,148 @@
+<div>
+  <h2 id="page-heading" data-cy="ContentLibraryHeading">
+    <span jhiTranslate="lmsOnCloudApp.contentLibrary.home.title">Content Libraries</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="lmsOnCloudApp.contentLibrary.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-content-library"
+        [routerLink]="['/content-library/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="lmsOnCloudApp.contentLibrary.home.createLabel">Create a new Content Library</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (contentLibraries?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="lmsOnCloudApp.contentLibrary.home.notFound">No Content Libraries found</span>
+    </div>
+  }
+
+  @if (contentLibraries && contentLibraries.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="name">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.contentLibrary.name">Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="description">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.contentLibrary.description">Description</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="resourceType">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.contentLibrary.resourceType">Resource Type</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="createdBy">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.contentLibrary.createdBy">Created By</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="createdDate">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.contentLibrary.createdDate">Created Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="lastModifiedBy">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.contentLibrary.lastModifiedBy">Last Modified By</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="lastModifiedDate">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.contentLibrary.lastModifiedDate">Last Modified Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (contentLibrary of contentLibraries; track trackId) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/content-library', contentLibrary.id, 'view']">{{ contentLibrary.id }}</a>
+              </td>
+              <td>{{ contentLibrary.name }}</td>
+              <td>{{ contentLibrary.description }}</td>
+              <td [jhiTranslate]="'lmsOnCloudApp.ResourceType.' + (contentLibrary.resourceType ?? 'null')">
+                {{
+                  { null: '', VIDEO: 'VIDEO', DOCUMENT: 'DOCUMENT', SLIDE: 'SLIDE', INTERACTIVE: 'INTERACTIVE' }[
+                    contentLibrary.resourceType ?? 'null'
+                  ]
+                }}
+              </td>
+              <td>{{ contentLibrary.createdBy }}</td>
+              <td>{{ contentLibrary.createdDate | formatMediumDatetime }}</td>
+              <td>{{ contentLibrary.lastModifiedBy }}</td>
+              <td>{{ contentLibrary.lastModifiedDate | formatMediumDatetime }}</td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a
+                    [routerLink]="['/content-library', contentLibrary.id, 'view']"
+                    class="btn btn-info btn-sm"
+                    data-cy="entityDetailsButton"
+                  >
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a
+                    [routerLink]="['/content-library', contentLibrary.id, 'edit']"
+                    class="btn btn-primary btn-sm"
+                    data-cy="entityEditButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(contentLibrary)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

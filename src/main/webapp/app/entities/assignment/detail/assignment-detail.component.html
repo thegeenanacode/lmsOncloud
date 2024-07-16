@@ -1,0 +1,58 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (assignment()) {
+      <div>
+        <h2 data-cy="assignmentDetailsHeading"><span jhiTranslate="lmsOnCloudApp.assignment.detail.title">Assignment</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ assignment()!.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.assignment.name">Name</span></dt>
+          <dd>
+            <span>{{ assignment()!.name }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.assignment.description">Description</span></dt>
+          <dd>
+            <span>{{ assignment()!.description }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.assignment.dueDate">Due Date</span></dt>
+          <dd>
+            <span>{{ assignment()!.dueDate | formatMediumDate }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.assignment.createdBy">Created By</span></dt>
+          <dd>
+            <span>{{ assignment()!.createdBy }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.assignment.createdDate">Created Date</span></dt>
+          <dd>
+            <span>{{ assignment()!.createdDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.assignment.lastModifiedBy">Last Modified By</span></dt>
+          <dd>
+            <span>{{ assignment()!.lastModifiedBy }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.assignment.lastModifiedDate">Last Modified Date</span></dt>
+          <dd>
+            <span>{{ assignment()!.lastModifiedDate | formatMediumDatetime }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/assignment', assignment()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

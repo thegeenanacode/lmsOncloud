@@ -1,0 +1,58 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (announcement()) {
+      <div>
+        <h2 data-cy="announcementDetailsHeading"><span jhiTranslate="lmsOnCloudApp.announcement.detail.title">Announcement</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ announcement()!.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.announcement.title">Title</span></dt>
+          <dd>
+            <span>{{ announcement()!.title }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.announcement.content">Content</span></dt>
+          <dd>
+            <span>{{ announcement()!.content }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.announcement.publishDate">Publish Date</span></dt>
+          <dd>
+            <span>{{ announcement()!.publishDate | formatMediumDate }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.announcement.createdBy">Created By</span></dt>
+          <dd>
+            <span>{{ announcement()!.createdBy }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.announcement.createdDate">Created Date</span></dt>
+          <dd>
+            <span>{{ announcement()!.createdDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.announcement.lastModifiedBy">Last Modified By</span></dt>
+          <dd>
+            <span>{{ announcement()!.lastModifiedBy }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.announcement.lastModifiedDate">Last Modified Date</span></dt>
+          <dd>
+            <span>{{ announcement()!.lastModifiedDate | formatMediumDatetime }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/announcement', announcement()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

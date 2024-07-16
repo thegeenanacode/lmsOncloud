@@ -1,0 +1,149 @@
+<div>
+  <h2 id="page-heading" data-cy="GradebookHeading">
+    <span jhiTranslate="lmsOnCloudApp.gradebook.home.title">Gradebooks</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="lmsOnCloudApp.gradebook.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-gradebook"
+        [routerLink]="['/gradebook/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="lmsOnCloudApp.gradebook.home.createLabel">Create a new Gradebook</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (gradebooks?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="lmsOnCloudApp.gradebook.home.notFound">No Gradebooks found</span>
+    </div>
+  }
+
+  @if (gradebooks && gradebooks.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="gradeType">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.gradebook.gradeType">Grade Type</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="gradeValue">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.gradebook.gradeValue">Grade Value</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="comments">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.gradebook.comments">Comments</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="createdBy">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.gradebook.createdBy">Created By</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="createdDate">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.gradebook.createdDate">Created Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="lastModifiedBy">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.gradebook.lastModifiedBy">Last Modified By</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="lastModifiedDate">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.gradebook.lastModifiedDate">Last Modified Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="student.id">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.gradebook.student">Student</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (gradebook of gradebooks; track trackId) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/gradebook', gradebook.id, 'view']">{{ gradebook.id }}</a>
+              </td>
+              <td [jhiTranslate]="'lmsOnCloudApp.GradeType.' + (gradebook.gradeType ?? 'null')">
+                {{ { null: '', LETTER: 'LETTER', PERCENTAGE: 'PERCENTAGE', POINTS: 'POINTS' }[gradebook.gradeType ?? 'null'] }}
+              </td>
+              <td>{{ gradebook.gradeValue }}</td>
+              <td>{{ gradebook.comments }}</td>
+              <td>{{ gradebook.createdBy }}</td>
+              <td>{{ gradebook.createdDate | formatMediumDatetime }}</td>
+              <td>{{ gradebook.lastModifiedBy }}</td>
+              <td>{{ gradebook.lastModifiedDate | formatMediumDatetime }}</td>
+              <td>
+                @if (gradebook.student) {
+                  <div>
+                    <a [routerLink]="['/app-user', gradebook.student.id, 'view']">{{ gradebook.student.id }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/gradebook', gradebook.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a [routerLink]="['/gradebook', gradebook.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(gradebook)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

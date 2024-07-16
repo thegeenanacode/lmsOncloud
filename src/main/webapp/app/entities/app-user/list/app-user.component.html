@@ -1,0 +1,173 @@
+<div>
+  <h2 id="page-heading" data-cy="AppUserHeading">
+    <span jhiTranslate="lmsOnCloudApp.appUser.home.title">App Users</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="lmsOnCloudApp.appUser.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-app-user"
+        [routerLink]="['/app-user/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="lmsOnCloudApp.appUser.home.createLabel">Create a new App User</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (appUsers?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="lmsOnCloudApp.appUser.home.notFound">No App Users found</span>
+    </div>
+  }
+
+  @if (appUsers && appUsers.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="username">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.appUser.username">Username</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="password">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.appUser.password">Password</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="email">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.appUser.email">Email</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="role">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.appUser.role">Role</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="firstName">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.appUser.firstName">First Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="lastName">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.appUser.lastName">Last Name</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="createdDate">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.appUser.createdDate">Created Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="lastModifiedDate">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.appUser.lastModifiedDate">Last Modified Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="lastLoginDate">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.appUser.lastLoginDate">Last Login Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="isActive">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.appUser.isActive">Is Active</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="enrollment.id">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.appUser.enrollment">Enrollment</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody infinite-scroll (scrolled)="loadNextPage()" [infiniteScrollDisabled]="!hasMorePage()" [infiniteScrollDistance]="0">
+          @for (appUser of appUsers; track trackId) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/app-user', appUser.id, 'view']">{{ appUser.id }}</a>
+              </td>
+              <td>{{ appUser.username }}</td>
+              <td>{{ appUser.password }}</td>
+              <td>{{ appUser.email }}</td>
+              <td [jhiTranslate]="'lmsOnCloudApp.UserRole.' + (appUser.role ?? 'null')">
+                {{ { null: '', ADMIN: 'ADMIN', INSTRUCTOR: 'INSTRUCTOR', STUDENT: 'STUDENT' }[appUser.role ?? 'null'] }}
+              </td>
+              <td>{{ appUser.firstName }}</td>
+              <td>{{ appUser.lastName }}</td>
+              <td>{{ appUser.createdDate | formatMediumDatetime }}</td>
+              <td>{{ appUser.lastModifiedDate | formatMediumDatetime }}</td>
+              <td>{{ appUser.lastLoginDate | formatMediumDatetime }}</td>
+              <td>{{ appUser.isActive }}</td>
+              <td>
+                @if (appUser.enrollment) {
+                  <div>
+                    <a [routerLink]="['/enrollment', appUser.enrollment.id, 'view']">{{ appUser.enrollment.id }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/app-user', appUser.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a [routerLink]="['/app-user', appUser.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(appUser)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

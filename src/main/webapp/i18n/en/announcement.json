@@ -1,0 +1,30 @@
+{
+  "lmsOnCloudApp": {
+    "announcement": {
+      "home": {
+        "title": "Announcements",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Announcement",
+        "createOrEditLabel": "Create or edit a Announcement",
+        "notFound": "No Announcements found"
+      },
+      "created": "A new Announcement is created with identifier {{ param }}",
+      "updated": "A Announcement is updated with identifier {{ param }}",
+      "deleted": "A Announcement is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Announcement {{ id }}?"
+      },
+      "detail": {
+        "title": "Announcement"
+      },
+      "id": "ID",
+      "title": "Title",
+      "content": "Content",
+      "publishDate": "Publish Date",
+      "createdBy": "Created By",
+      "createdDate": "Created Date",
+      "lastModifiedBy": "Last Modified By",
+      "lastModifiedDate": "Last Modified Date"
+    }
+  }
+}

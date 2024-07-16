@@ -1,0 +1,154 @@
+<div>
+  <h2 id="page-heading" data-cy="EnrollmentHeading">
+    <span jhiTranslate="lmsOnCloudApp.enrollment.home.title">Enrollments</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="lmsOnCloudApp.enrollment.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-enrollment"
+        [routerLink]="['/enrollment/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="lmsOnCloudApp.enrollment.home.createLabel">Create a new Enrollment</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (enrollments?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="lmsOnCloudApp.enrollment.home.notFound">No Enrollments found</span>
+    </div>
+  }
+
+  @if (enrollments && enrollments.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="enrollmentDate">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.enrollment.enrollmentDate">Enrollment Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="status">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.enrollment.status">Status</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="createdBy">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.enrollment.createdBy">Created By</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="createdDate">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.enrollment.createdDate">Created Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="lastModifiedBy">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.enrollment.lastModifiedBy">Last Modified By</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="lastModifiedDate">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.enrollment.lastModifiedDate">Last Modified Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="user.id">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.enrollment.user">User</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="course.id">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.enrollment.course">Course</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (enrollment of enrollments; track trackId) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/enrollment', enrollment.id, 'view']">{{ enrollment.id }}</a>
+              </td>
+              <td>{{ enrollment.enrollmentDate | formatMediumDate }}</td>
+              <td [jhiTranslate]="'lmsOnCloudApp.EnrollmentStatus.' + (enrollment.status ?? 'null')">
+                {{ { null: '', ACTIVE: 'ACTIVE', COMPLETED: 'COMPLETED', WAITLISTED: 'WAITLISTED' }[enrollment.status ?? 'null'] }}
+              </td>
+              <td>{{ enrollment.createdBy }}</td>
+              <td>{{ enrollment.createdDate | formatMediumDatetime }}</td>
+              <td>{{ enrollment.lastModifiedBy }}</td>
+              <td>{{ enrollment.lastModifiedDate | formatMediumDatetime }}</td>
+              <td>
+                @if (enrollment.user) {
+                  <div>
+                    <a [routerLink]="['/app-user', enrollment.user.id, 'view']">{{ enrollment.user.id }}</a>
+                  </div>
+                }
+              </td>
+              <td>
+                @if (enrollment.course) {
+                  <div>
+                    <a [routerLink]="['/course', enrollment.course.id, 'view']">{{ enrollment.course.id }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/enrollment', enrollment.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a [routerLink]="['/enrollment', enrollment.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(enrollment)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

@@ -1,0 +1,134 @@
+<div>
+  <h2 id="page-heading" data-cy="AnnouncementHeading">
+    <span jhiTranslate="lmsOnCloudApp.announcement.home.title">Announcements</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [animation]="isLoading ? 'spin' : undefined"></fa-icon>
+        <span jhiTranslate="lmsOnCloudApp.announcement.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-announcement"
+        [routerLink]="['/announcement/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="lmsOnCloudApp.announcement.home.createLabel">Create a new Announcement</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (announcements?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span jhiTranslate="lmsOnCloudApp.announcement.home.notFound">No Announcements found</span>
+    </div>
+  }
+
+  @if (announcements && announcements.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [sortState]="sortState" (sortChange)="navigateToWithComponentValues($event)">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span jhiTranslate="global.field.id">ID</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="title">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.announcement.title">Title</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="content">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.announcement.content">Content</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="publishDate">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.announcement.publishDate">Publish Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="createdBy">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.announcement.createdBy">Created By</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="createdDate">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.announcement.createdDate">Created Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="lastModifiedBy">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.announcement.lastModifiedBy">Last Modified By</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="lastModifiedDate">
+              <div class="d-flex">
+                <span jhiTranslate="lmsOnCloudApp.announcement.lastModifiedDate">Last Modified Date</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (announcement of announcements; track trackId) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/announcement', announcement.id, 'view']">{{ announcement.id }}</a>
+              </td>
+              <td>{{ announcement.title }}</td>
+              <td>{{ announcement.content }}</td>
+              <td>{{ announcement.publishDate | formatMediumDate }}</td>
+              <td>{{ announcement.createdBy }}</td>
+              <td>{{ announcement.createdDate | formatMediumDatetime }}</td>
+              <td>{{ announcement.lastModifiedBy }}</td>
+              <td>{{ announcement.lastModifiedDate | formatMediumDatetime }}</td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/announcement', announcement.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                  </a>
+
+                  <a [routerLink]="['/announcement', announcement.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(announcement)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

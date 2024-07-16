@@ -1,0 +1,191 @@
+application {
+  config {
+    baseName LMSOnCloud,
+    applicationType monolith,
+    packageName com.lmsoncloud,
+    databaseType sql,
+    devDatabaseType h2Disk,
+    prodDatabaseType postgresql,
+    cacheProvider hazelcast,
+    enableHibernateCache true,
+    buildTool maven,
+    serverPort 7575,
+    clientFramework angular,
+    clientPackageManager npm,
+    testFrameworks [protractor, gatling, cucumber],
+    serviceDiscoveryType false
+  }
+  entities Course, Module, Lesson, AppUser, Enrollment, ContentLibrary, Project, Message, Discussion, Announcement, Quiz, Assignment, Gradebook
+}
+
+entity Course {
+  name String required maxlength(100),
+  description TextBlob,
+  startDate LocalDate,
+  endDate LocalDate,
+  createdBy String,
+  createdDate Instant,
+  lastModifiedBy String,
+  lastModifiedDate Instant
+}
+
+entity Module {
+  title String required maxlength(100),
+  description TextBlob,
+  createdBy String,
+  createdDate Instant,
+  lastModifiedBy String,
+  lastModifiedDate Instant
+}
+
+entity Lesson {
+  title String required maxlength(100),
+  content TextBlob,
+  videoUrl String,
+  createdBy String,
+  createdDate Instant,
+  lastModifiedBy String,
+  lastModifiedDate Instant
+}
+
+entity AppUser {
+  username String required minlength(5) maxlength(50),
+  password String required,
+  email String required pattern(/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/),
+  role UserRole,
+  firstName String maxlength(50),
+  lastName String maxlength(50),
+  createdDate Instant,
+  lastModifiedDate Instant,
+  lastLoginDate Instant,
+  isActive Boolean
+}
+
+entity Enrollment {
+  enrollmentDate LocalDate,
+  status EnrollmentStatus,
+  createdBy String,
+  createdDate Instant,
+  lastModifiedBy String,
+  lastModifiedDate Instant
+}
+
+entity ContentLibrary {
+  name String required maxlength(100),
+  description TextBlob,
+  resourceType ResourceType,
+  createdBy String,
+  createdDate Instant,
+  lastModifiedBy String,
+  lastModifiedDate Instant
+}
+
+entity Project {
+  projectName String required maxlength(100),
+  projectDescription TextBlob,
+  submissionDate LocalDate,
+  createdBy String,
+  createdDate Instant,
+  lastModifiedBy String,
+  lastModifiedDate Instant
+}
+
+entity Message {
+  content TextBlob required,
+  timestamp Instant required,
+  sender String,
+  createdBy String,
+  createdDate Instant,
+  lastModifiedBy String,
+  lastModifiedDate Instant
+}
+
+entity Discussion {
+  topic String required maxlength(100),
+  details TextBlob required,
+  createdBy String,
+  createdDate Instant,
+  lastModifiedBy String,
+  lastModifiedDate Instant
+}
+
+entity Announcement {
+  title String required maxlength(100),
+  content TextBlob required,
+  publishDate LocalDate required,
+  createdBy String,
+  createdDate Instant,
+  lastModifiedBy String,
+  lastModifiedDate Instant
+}
+
+entity Quiz {
+  title String required maxlength(100),
+  description TextBlob,
+  createdBy String,
+  createdDate Instant,
+  lastModifiedBy String,
+  lastModifiedDate Instant
+}
+
+entity Assignment {
+  name String required maxlength(100),
+  description TextBlob,
+  dueDate LocalDate,
+  createdBy String,
+  createdDate Instant,
+  lastModifiedBy String,
+  lastModifiedDate Instant
+}
+
+entity Gradebook {
+  gradeType GradeType,
+  gradeValue String maxlength(10),
+  comments TextBlob,
+  createdBy String,
+  createdDate Instant,
+  lastModifiedBy String,
+  lastModifiedDate Instant
+}
+
+enum UserRole {
+  ADMIN, INSTRUCTOR, STUDENT
+}
+
+enum EnrollmentStatus {
+  ACTIVE, COMPLETED, WAITLISTED
+}
+
+enum ResourceType {
+  VIDEO, DOCUMENT, SLIDE, INTERACTIVE
+}
+
+enum GradeType {
+  LETTER, PERCENTAGE, POINTS
+}
+
+relationship ManyToMany {
+  Course{module} to Module{course}
+}
+
+relationship OneToMany {
+  Module{lesson} to Lesson{module},
+  AppUser{message} to Message{user},
+  Course{discussion} to Discussion{course}
+}
+
+relationship ManyToOne {
+  Enrollment{user} to AppUser,
+  Enrollment{course} to Course,
+}
+
+relationship OneToOne {
+  AppUser{enrollment} to Enrollment,
+  Gradebook{student} to AppUser
+}
+
+paginate AppUser, Course, Module, Lesson with infinite-scroll
+service all with serviceImpl
+search * with elasticsearch
+
+

@@ -1,0 +1,68 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (gradebook()) {
+      <div>
+        <h2 data-cy="gradebookDetailsHeading"><span jhiTranslate="lmsOnCloudApp.gradebook.detail.title">Gradebook</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ gradebook()!.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.gradebook.gradeType">Grade Type</span></dt>
+          <dd>
+            <span [jhiTranslate]="'lmsOnCloudApp.GradeType.' + (gradebook()!.gradeType ?? 'null')">{{
+              { null: '', LETTER: 'LETTER', PERCENTAGE: 'PERCENTAGE', POINTS: 'POINTS' }[gradebook()!.gradeType ?? 'null']
+            }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.gradebook.gradeValue">Grade Value</span></dt>
+          <dd>
+            <span>{{ gradebook()!.gradeValue }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.gradebook.comments">Comments</span></dt>
+          <dd>
+            <span>{{ gradebook()!.comments }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.gradebook.createdBy">Created By</span></dt>
+          <dd>
+            <span>{{ gradebook()!.createdBy }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.gradebook.createdDate">Created Date</span></dt>
+          <dd>
+            <span>{{ gradebook()!.createdDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.gradebook.lastModifiedBy">Last Modified By</span></dt>
+          <dd>
+            <span>{{ gradebook()!.lastModifiedBy }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.gradebook.lastModifiedDate">Last Modified Date</span></dt>
+          <dd>
+            <span>{{ gradebook()!.lastModifiedDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.gradebook.student">Student</span></dt>
+          <dd>
+            @if (gradebook()!.student) {
+              <div>
+                <a [routerLink]="['/app-user', gradebook()!.student?.id, 'view']">{{ gradebook()!.student?.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/gradebook', gradebook()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

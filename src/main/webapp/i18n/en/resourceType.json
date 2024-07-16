@@ -1,0 +1,11 @@
+{
+  "lmsOnCloudApp": {
+    "ResourceType": {
+      "null": "",
+      "VIDEO": "VIDEO",
+      "DOCUMENT": "DOCUMENT",
+      "SLIDE": "SLIDE",
+      "INTERACTIVE": "INTERACTIVE"
+    }
+  }
+}

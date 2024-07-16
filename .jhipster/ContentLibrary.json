@@ -1,0 +1,44 @@
+{
+  "annotations": {
+    "changelogDate": "20240716200328"
+  },
+  "applications": ["LMSOnCloud"],
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "100"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "resourceType",
+      "fieldType": "ResourceType",
+      "fieldValues": "VIDEO,DOCUMENT,SLIDE,INTERACTIVE"
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "lastModifiedBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastModifiedDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "name": "ContentLibrary",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

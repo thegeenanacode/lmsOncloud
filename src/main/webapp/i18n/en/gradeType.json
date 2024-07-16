@@ -1,0 +1,10 @@
+{
+  "lmsOnCloudApp": {
+    "GradeType": {
+      "null": "",
+      "LETTER": "LETTER",
+      "PERCENTAGE": "PERCENTAGE",
+      "POINTS": "POINTS"
+    }
+  }
+}

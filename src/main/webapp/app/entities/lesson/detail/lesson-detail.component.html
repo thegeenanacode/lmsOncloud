@@ -1,0 +1,66 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (lesson()) {
+      <div>
+        <h2 data-cy="lessonDetailsHeading"><span jhiTranslate="lmsOnCloudApp.lesson.detail.title">Lesson</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span jhiTranslate="global.field.id">ID</span></dt>
+          <dd>
+            <span>{{ lesson()!.id }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.lesson.title">Title</span></dt>
+          <dd>
+            <span>{{ lesson()!.title }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.lesson.content">Content</span></dt>
+          <dd>
+            <span>{{ lesson()!.content }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.lesson.videoUrl">Video Url</span></dt>
+          <dd>
+            <span>{{ lesson()!.videoUrl }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.lesson.createdBy">Created By</span></dt>
+          <dd>
+            <span>{{ lesson()!.createdBy }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.lesson.createdDate">Created Date</span></dt>
+          <dd>
+            <span>{{ lesson()!.createdDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.lesson.lastModifiedBy">Last Modified By</span></dt>
+          <dd>
+            <span>{{ lesson()!.lastModifiedBy }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.lesson.lastModifiedDate">Last Modified Date</span></dt>
+          <dd>
+            <span>{{ lesson()!.lastModifiedDate | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span jhiTranslate="lmsOnCloudApp.lesson.module">Module</span></dt>
+          <dd>
+            @if (lesson()!.module) {
+              <div>
+                <a [routerLink]="['/module', lesson()!.module?.id, 'view']">{{ lesson()!.module?.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+        </button>
+
+        <button type="button" [routerLink]="['/lesson', lesson()!.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

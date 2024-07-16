@@ -1,0 +1,10 @@
+{
+  "lmsOnCloudApp": {
+    "EnrollmentStatus": {
+      "null": "",
+      "ACTIVE": "ACTIVE",
+      "COMPLETED": "COMPLETED",
+      "WAITLISTED": "WAITLISTED"
+    }
+  }
+}
